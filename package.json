@@ -1,0 +1,22 @@
+{
+    "name": "com.joyman.tabwindow",
+    "version": "1.0.0",
+    "displayName": "TabWindow",
+    "description": "TabWindow is a custom editor window for Unity in which you can create your own custom pages switchable with tabs",
+    "unity": "2020.3",
+    "unityRelease": "19f1",
+    "documentationUrl": "https://github.com/JoymanGD/TabWindow/README.md",
+    "changelogUrl": "https://github.com/JoymanGD/TabWindow/CHANGELOG.md",
+    "licensesUrl": "https://github.com/JoymanGD/TabWindow/LICENSE.md",
+    "dependencies": {
+   },
+   "keywords": [
+      "tabwindow",
+      "tab"
+    ],
+    "author": {
+      "name": "Joyman",
+      "email": "joyman.gamedev@gmail.com",
+      "url": "https://github.com/JoymanGD/"
+    }
+  }
