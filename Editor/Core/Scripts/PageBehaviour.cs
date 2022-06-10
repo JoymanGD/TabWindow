@@ -11,7 +11,7 @@ namespace Joyman.TabWindow
         public Action<string, Color> OnDebugMessage;
 
         protected VisualElement pageElement;
-        protected ObrioTechArtistToolWindow rootWindow;
+        protected TabWindow rootWindow;
         private string currentProcess = "";
 
         public virtual void Init(VisualElement pageElement, TabWindow rootWindow)
