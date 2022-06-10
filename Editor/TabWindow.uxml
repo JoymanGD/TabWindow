@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="TabWindow.uss" />
+    <ui:IMGUIContainer focusable="true" name="ButtonsContainer" style="align-items: flex-end; flex-direction: row; justify-content: flex-start; max-width: 100%; background-color: rgb(29, 29, 29); flex-wrap: nowrap; flex-grow: 0; flex-shrink: 0; opacity: 1; overflow: hidden; margin-top: 3px; max-height: none; min-width: auto;" />
+    <ui:VisualElement name="ViewsContainer" style="width: auto; height: auto; min-width: auto; min-height: auto; flex-basis: 100%;" />
+    <ui:Label display-tooltip-when-elided="true" name="DebugLabel" style="justify-content: flex-start; align-items: auto; background-color: rgb(29, 29, 29); padding-left: 3px; padding-right: 3px; padding-bottom: 3px; flex-direction: column; max-width: none; width: 100%; flex-wrap: nowrap;" />
+</ui:UXML>
