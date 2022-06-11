@@ -17,7 +17,8 @@ namespace Joyman.TabWindow
         private VisualElement viewsContainer;
         private StyleSheet activeTab;
         private StyleSheet inactiveTab;
-        private List<PageBehaviour> pageBehaviours;
+        private List<PageBehaviour> internalPageBehaviours;
+        private List<PageBehaviour> externalPageBehaviours;
         private Dictionary<string, object> sharedData;
         private Label debugLabel;
 
@@ -50,7 +51,8 @@ namespace Joyman.TabWindow
                 toolPath = GetToolFolderPathByCaller();
             }
 
-            pageBehaviours = new List<PageBehaviour>();
+            internalPageBehaviours = new List<PageBehaviour>();
+            externalPageBehaviours = new List<PageBehaviour>();
             sharedData = new Dictionary<string, object>();
 
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(toolPath + "TabWindow.uxml");
@@ -63,7 +65,10 @@ namespace Joyman.TabWindow
             debugLabel = rootVisualElement.Q<Label>("DebugLabel");
             
             LoadInternalPages();
-            LoadWindowData();
+            LoadWindowData(PageType.Internal);
+
+            LoadExternalPages();
+            LoadWindowData(PageType.External);
             
             SwitchToTab("Settings");
         }
@@ -111,10 +116,10 @@ namespace Joyman.TabWindow
 
         private void Deinit()
         {
-            if(pageBehaviours != null)
+            if(externalPageBehaviours != null)
             {
-                pageBehaviours.Clear();
-                pageBehaviours = null;
+                externalPageBehaviours.Clear();
+                externalPageBehaviours = null;
             }
 
             if(sharedData != null)
@@ -126,15 +131,27 @@ namespace Joyman.TabWindow
             SaveWindowData();
         }
 
-        private void LoadWindowData()
+        public void LoadWindowData(PageType pageType)
         {
+            List<PageBehaviour> pageBehaviours = null;
+
+            switch (pageType)
+            {
+                case PageType.Internal:
+                    pageBehaviours = internalPageBehaviours;
+                    break;
+                case PageType.External:
+                    pageBehaviours = externalPageBehaviours;
+                    break;
+            }
+
             var textFieldsJson = EditorPrefs.GetString("TabWindow_TextFields");
             Dictionary<string, string> textFieldsLoadData = JsonConvert.DeserializeObject<Dictionary<string, string>>(textFieldsJson);
 
             var togglesJson = EditorPrefs.GetString("TabWindow_Toggles");
             Dictionary<string, bool> togglesLoadData = JsonConvert.DeserializeObject<Dictionary<string, bool>>(togglesJson);
 
-            foreach (var item in pageBehaviours.ToList())
+            foreach (var item in pageBehaviours)
             {
                 item.Load<string>(textFieldsLoadData);
                 item.Load<bool>(togglesLoadData);
@@ -162,11 +179,30 @@ namespace Joyman.TabWindow
 
         private void LoadInternalPages()
         {
-            LoadPages(toolPath + "InternalPages/");
+            LoadPages(toolPath + "InternalPages/", PageType.Internal);
         }
 
-        public bool LoadPages(string pagesPath)
+        private void LoadExternalPages()
         {
+            SettingsPageBehaviour settingsPageBehaviour = internalPageBehaviours.FirstOrDefault(b=> b.GetType() == typeof(SettingsPageBehaviour)) as SettingsPageBehaviour;
+            settingsPageBehaviour?.InitializePages();
+            settingsPageBehaviour?.SetWindowname();
+        }
+
+        public bool LoadPages(string pagesPath, PageType pageType)
+        {
+            List<PageBehaviour> pageBehaviours = null;
+
+            switch (pageType)
+            {
+                case PageType.Internal:
+                    pageBehaviours = internalPageBehaviours;
+                    break;
+                case PageType.External:
+                    pageBehaviours = externalPageBehaviours;
+                    break;
+            }
+
             bool result = false;
 
             if(!string.IsNullOrEmpty(pagesPath))
@@ -209,7 +245,7 @@ namespace Joyman.TabWindow
                             button.clicked += tabButtonPressedHandler;
                         }
 
-                        result = true; 
+                        result = true;
                     }
                     else
                     {
@@ -288,5 +324,11 @@ namespace Joyman.TabWindow
             debugLabel.text = text;
             debugLabel.style.color = color;
         }
+    }
+
+    public enum PageType
+    {
+        External = 0,
+        Internal = 1
     }
 }
