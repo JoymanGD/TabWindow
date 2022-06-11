@@ -174,40 +174,47 @@ namespace Joyman.TabWindow
                 if(Directory.Exists(pagesPath))
                 {
                     var uxmls = Directory.GetFiles(pagesPath, "*.uxml", SearchOption.AllDirectories);
-                    foreach (var uxml in uxmls)
+                    if(uxmls.Length > 0)
                     {
-                        var pageWindowAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxml);
-                        var pageVisualElement = pageWindowAsset.CloneTree();
+                        foreach (var uxml in uxmls)
+                        {
+                            var pageWindowAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxml);
+                            var pageVisualElement = pageWindowAsset.CloneTree();
 
-                        var behaviourPath = uxml.Replace("Window.uxml", "Behaviour.cs");
-                        var pageBehaviourAsset = AssetDatabase.LoadMainAssetAtPath(behaviourPath) as UnityEngine.Object;
-                        var behaviourType = GetType("Joyman.TabWindow." + pageBehaviourAsset.name);
+                            var behaviourPath = uxml.Replace("Window.uxml", "Behaviour.cs");
+                            var pageBehaviourAsset = AssetDatabase.LoadMainAssetAtPath(behaviourPath) as UnityEngine.Object;
+                            var behaviourType = GetType("Joyman.TabWindow." + pageBehaviourAsset.name);
 
-                        var pageBehaviour = Activator.CreateInstance(behaviourType) as PageBehaviour;
-                        pageBehaviour.OnDebugMessage -= DebugMessage;
-                        pageBehaviour.OnDebugMessage += DebugMessage;
-                        pageBehaviours.Add(pageBehaviour);
+                            var pageBehaviour = Activator.CreateInstance(behaviourType) as PageBehaviour;
+                            pageBehaviour.OnDebugMessage -= DebugMessage;
+                            pageBehaviour.OnDebugMessage += DebugMessage;
+                            pageBehaviours.Add(pageBehaviour);
 
-                        var view = pageVisualElement.Q<VisualElement>(pageWindowAsset.name + "View");
-                        viewsContainer.Add(view);
+                            var view = pageVisualElement.Q<VisualElement>(pageWindowAsset.name + "View");
+                            viewsContainer.Add(view);
 
-                        pageBehaviour.Init(view, this);
+                            pageBehaviour.Init(view, this);
 
-                        var buttonAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(toolPath + "Core/UXML/TabButton.uxml");
-                        var buttonVE = buttonAsset.CloneTree();
-                        var button = buttonVE.Q<Button>("TabButton");
-                        button.text = pageWindowAsset.name.Replace("PageWindow", "");
-                        button.name = pageWindowAsset.name + "Button";
+                            var buttonAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(toolPath + "Core/UXML/TabButton.uxml");
+                            var buttonVE = buttonAsset.CloneTree();
+                            var button = buttonVE.Q<Button>("TabButton");
+                            button.text = pageWindowAsset.name.Replace("PageWindow", "");
+                            button.name = pageWindowAsset.name + "Button";
 
-                        buttonsContainer.Add(button);
-                        
-                        Action tabButtonPressedHandler = ()=> SwitchToTab(pageWindowAsset.name);
+                            buttonsContainer.Add(button);
 
-                        button.clicked -= tabButtonPressedHandler;
-                        button.clicked += tabButtonPressedHandler;
+                            Action tabButtonPressedHandler = ()=> SwitchToTab(pageWindowAsset.name);
+
+                            button.clicked -= tabButtonPressedHandler;
+                            button.clicked += tabButtonPressedHandler;
+                        }
+
+                        result = true; 
                     }
-
-                    result = true;
+                    else
+                    {
+                        DebugMessage("There are no pages on path!", Color.red);
+                    }
                 }
                 else
                 {
