@@ -22,13 +22,16 @@ namespace Joyman.TabWindow
 
         public virtual void Load<T>(Dictionary<string, T> loadData)
         {
-            foreach (var item in loadData)
+            if(loadData != null)
             {
-                var visualElement = pageElement.Q(item.Key) as BaseField<T>;
-
-                if(visualElement != null)
+                foreach (var item in loadData)
                 {
-                    visualElement.value = item.Value;
+                    var visualElement = pageElement.Q(item.Key) as BaseField<T>;
+
+                    if(visualElement != null)
+                    {
+                        visualElement.value = item.Value;
+                    }
                 }
             }
         }
