@@ -151,10 +151,22 @@ namespace Joyman.TabWindow
             var togglesJson = EditorPrefs.GetString("TabWindow_Toggles");
             Dictionary<string, bool> togglesLoadData = JsonConvert.DeserializeObject<Dictionary<string, bool>>(togglesJson);
 
+            var integersJson = EditorPrefs.GetString("TabWindow_Integers");
+            Dictionary<string, int> integersLoadData = JsonConvert.DeserializeObject<Dictionary<string, int>>(integersJson);
+
+            var vectors2Json = EditorPrefs.GetString("TabWindow_Vectors2");
+            Dictionary<string, Vector2> vectors2LoadData = JsonConvert.DeserializeObject<Dictionary<string, Vector2>>(vectors2Json);
+
+            var vectors3Json = EditorPrefs.GetString("TabWindow_Vectors3");
+            Dictionary<string, Vector3> vectors3LoadData = JsonConvert.DeserializeObject<Dictionary<string, Vector3>>(vectors3Json);
+
             foreach (var item in pageBehaviours)
             {
                 item.Load<string>(textFieldsLoadData);
                 item.Load<bool>(togglesLoadData);
+                item.Load<int>(integersLoadData);
+                item.Load<Vector2>(vectors2LoadData);
+                item.Load<Vector3>(vectors3LoadData);
             }
         }
 
