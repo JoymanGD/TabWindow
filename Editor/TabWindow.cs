@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -174,6 +175,9 @@ namespace Joyman.TabWindow
         {
             Save<string, TextField>("TabWindow_TextFields");
             Save<bool, Toggle>("TabWindow_Toggles");
+            Save<int, IntegerField>("TabWindow_Integers");
+            Save<Vector2, Vector2Field>("TabWindow_Vectors2");
+            Save<Vector3, Vector3Field>("TabWindow_Vectors3");
         }
 
         private void Save<T1, T2>(string saveName) where T2 : BaseField<T1>
