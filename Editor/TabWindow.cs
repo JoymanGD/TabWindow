@@ -181,7 +181,7 @@ namespace Joyman.TabWindow
 
                         var behaviourPath = uxml.Replace("Window.uxml", "Behaviour.cs");
                         var pageBehaviourAsset = AssetDatabase.LoadMainAssetAtPath(behaviourPath) as UnityEngine.Object;
-                        var behaviourType = Type.GetType("Joyman.TabWindow." + pageBehaviourAsset.name);
+                        var behaviourType = GetType("Joyman.TabWindow." + pageBehaviourAsset.name);
 
                         var pageBehaviour = Activator.CreateInstance(behaviourType) as PageBehaviour;
                         pageBehaviour.OnDebugMessage -= DebugMessage;
@@ -216,6 +216,19 @@ namespace Joyman.TabWindow
             }
 
             return result;
+        }
+
+        public static Type GetType(string typeName)
+        {
+            var type = Type.GetType(typeName);
+            if (type != null) return type;
+            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = a.GetType(typeName);
+                if (type != null)
+                    return type;
+            }
+            return null;
         }
 
         public void SwitchToTab(string buttonName)
