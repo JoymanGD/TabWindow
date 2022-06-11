@@ -8,7 +8,6 @@ namespace Joyman.TabWindow
     public class SettingsPageBehaviour : PageBehaviour
     {
         private Button button;
-        private bool initedAfterLoaded;
 
         public override void Init(VisualElement pageElement, TabWindow rootWindow)
         {
@@ -18,42 +17,31 @@ namespace Joyman.TabWindow
 
             button.clicked -= InitializePages;
             button.clicked += InitializePages;
-
-            initedAfterLoaded = false;
         }
 
-        public override void Load<T>(Dictionary<string, T> loadData)
-        {
-            base.Load(loadData);
-
-            if(!initedAfterLoaded)
-            {
-                var windowName = pageElement.Q<TextField>("WindowNameInput");
-
-                if(windowName.value == "")
-                {
-                    windowName.value = "TabWindow";
-                }
-                
-                rootWindow.titleContent = new GUIContent(windowName.value);
-                
-                InitializePages();
-            }
-        }
-
-        private void InitializePages()
+        public void InitializePages()
         {
             var pagesPathInput = pageElement.Q<TextField>("PagesPathInput");
             var pagesPath = pagesPathInput.value;
 
-            var loaded = rootWindow.LoadPages(pagesPath);
+            var loaded = rootWindow.LoadPages(pagesPath, PageType.External);
 
             if(loaded)
             {
                 button.style.display = DisplayStyle.None;
             }
+        }
 
-            initedAfterLoaded = true;
+        public void SetWindowname()
+        {
+            var windowName = pageElement.Q<TextField>("WindowNameInput");
+
+            if(windowName.value == "")
+            {
+                windowName.value = "TabWindow";
+            }
+            
+            rootWindow.titleContent = new GUIContent(windowName.value);
         }
     }
 }
