@@ -209,6 +209,10 @@ namespace Joyman.TabWindow
 
                     result = true;
                 }
+                else
+                {
+                    DebugMessage("Pages path doesn't exist!", Color.red);
+                }
             }
             else
             {
