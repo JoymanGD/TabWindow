@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
@@ -45,3 +46,4 @@ namespace Joyman.TabWindow
         }
     }
 }
+#endif
