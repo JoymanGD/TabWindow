@@ -9,7 +9,7 @@ namespace Joyman.TabWindow
     {
         private Button button;
 
-        public override void Init(VisualElement pageElement, TabWindow rootWindow)
+        public override void Init(VisualElement pageElement, Joyman.TabWindow.TabWindow rootWindow)
         {
             base.Init(pageElement, rootWindow);
 
