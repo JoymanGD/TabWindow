@@ -1,6 +1,6 @@
 {
     "name": "com.joyman.tabwindow",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "displayName": "TabWindow",
     "description": "TabWindow is a custom editor window for Unity in which you can create your own custom pages switchable with tabs",
     "unity": "2020.3",
