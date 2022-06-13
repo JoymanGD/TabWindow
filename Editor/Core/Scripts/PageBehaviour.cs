@@ -11,10 +11,10 @@ namespace Joyman.TabWindow
         public Action<string, Color> OnDebugMessage;
 
         protected VisualElement pageElement;
-        protected TabWindow rootWindow;
+        protected Joyman.TabWindow.TabWindow rootWindow;
         private string currentProcess = "";
 
-        public virtual void Init(VisualElement pageElement, TabWindow rootWindow)
+        public virtual void Init(VisualElement pageElement, Joyman.TabWindow.TabWindow rootWindow)
         {
             this.pageElement = pageElement;
             this.rootWindow = rootWindow;
