@@ -24,7 +24,7 @@ namespace Joyman.TabWindow
         private Dictionary<string, object> sharedData;
         private Label debugLabel;
 
-        [MenuItem("Tools/TabWindow")]
+        [MenuItem("Tools/TabWindow", false, 999)]
         public static void ShowExample()
         {
             TabWindow wnd = GetWindow<TabWindow>();
